@@ -1,0 +1,13 @@
+<div class="instructions">
+  <h2>Instructions for {{ candidate.name }}</h2>
+  <p>Number of Questions: {{ questions.length }}</p>
+  <p>Time: {{ timer / 60 }} minutes</p>
+  <h3>Rules:</h3>
+  <ul>
+    <li>Read each question carefully.</li>
+    <li>Select the best answer from the given options.</li>
+    <li>You cannot go back once you start the assessment.</li>
+    <li>Click the "Submit" button to finish the assessment.</li>
+  </ul>
+  <button (click)="startAssessment()">Start Assessment</button>
+</div>

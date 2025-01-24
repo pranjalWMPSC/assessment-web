@@ -1,0 +1,39 @@
+<app-navbar></app-navbar>
+<div class="candidate-list">
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="!loading && errorMessage">
+    <p class="error-message">{{ errorMessage }}</p>
+    <button (click)="goToBatchList()">Go to Batch List</button>
+  </div>
+  <div *ngIf="!loading && !batchId && !errorMessage">
+    <p>No batch selected. Please go back to the batch list page.</p>
+    <button (click)="goToBatchList()">Go to Batch List</button>
+  </div>
+  <div *ngIf="!loading && batchId && !errorMessage">
+    <h2>Candidate List for Batch {{ batchId }}</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Aadhar Number</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let candidate of candidates" [class.completed]="candidate.assessmentCompleted">
+            <td>{{ candidate.name }}</td>
+            <td>{{ candidate.phone }}</td>
+            <td>{{ candidate.aadharNumber }}</td>
+            <td>
+              <button (click)="startAssessment(candidate)" [disabled]="candidate.assessmentCompleted">
+                {{ candidate.assessmentCompleted ? 'Completed' : 'Start Assessment' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

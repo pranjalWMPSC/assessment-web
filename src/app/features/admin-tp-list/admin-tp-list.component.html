@@ -1,0 +1,40 @@
+<app-admin-navbar></app-admin-navbar>
+<div class="container">
+  <div class="page-header">
+    <h1>Training Partners</h1>
+    <button class="add-button" (click)="addNewTP()">
+      Add New Training Partner
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    Loading training partners...
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+    <button (click)="loadTPs()" class="retry-button">Retry</button>
+  </div>
+
+  <div *ngIf="!isLoading && !error" class="tp-list">
+    <div class="tp-card" *ngFor="let tp of tps">
+      <div class="tp-status" [class.active]="tp.status === 'active'">
+        {{ tp.status }}
+      </div>
+      <div class="tp-main">
+        <h2>{{ tp.name }}</h2>
+        <div class="tp-details">
+          <p>SPOC: {{ tp.spocName }}</p>
+          <p>Email: {{ tp.email }}</p>
+          <p>Phone: {{ tp.mobileNumber }}</p>
+        </div>
+        <button
+          class="status-button"
+          [class.active]="tp.status === 'active'"
+          (click)="toggleTPStatus(tp)">
+          {{ tp.status === 'active' ? 'Deactivate' : 'Activate' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

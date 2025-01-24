@@ -1,0 +1,37 @@
+.navbar {
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1976d2; /* Blue color for the navbar */
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.login-card {
+  width: 500px; /* Increased width for the card */
+  padding: 20px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.reset-password-link {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.reset-password-link:hover {
+  text-decoration: underline;
+}

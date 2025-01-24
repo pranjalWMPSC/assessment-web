@@ -1,0 +1,63 @@
+<app-admin-navbar></app-admin-navbar>
+
+<div class="container">
+  <div class="assessment-select">
+    <select [(ngModel)]="selectedAssessment">
+      <option [ngValue]="null">Select Assessment</option>
+      <option *ngFor="let assessment of assessments" [value]="assessment._id">
+        {{assessment.name}}
+      </option>
+    </select>
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{errorMessage}}
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    Loading...
+  </div>
+
+  <div class="upload-section" *ngIf="selectedAssessment">
+    <input type="file" (change)="onFileUpload($event)" accept=".xlsx,.xls" />
+    <p class="hint">Upload Excel file with questions (max 20 questions)</p>
+  </div>
+
+  <div class="questions-list" *ngIf="questions.length">
+    <h3>Uploaded Questions</h3>
+    <div class="question-item" *ngFor="let question of questions; let i = index" [class.has-error]="question.hasError">
+      <div class="question-header">
+        <span>Question {{i + 1}}</span>
+        <span class="error-badge" *ngIf="question.hasError">Error</span>
+      </div>
+      <div class="question-content">
+        <textarea [(ngModel)]="question.question"></textarea>
+        <div class="options">
+          <input *ngFor="let option of question.options; let j = index"
+                 [(ngModel)]="question.options[j]"
+                 placeholder="Option {{j + 1}}" />
+        </div>
+        <div class="correct-answer">
+          <label for="correctAnswer">Correct Answer:</label>
+          <select [(ngModel)]="question.correctAnswer" id="correctAnswer">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+        </div>
+        <div class="additional-info">
+          <p><strong>NOS:</strong> {{question.nos}}</p>
+          <p><strong>Difficulty:</strong> {{question.difficulty}}</p>
+        </div>
+        <div class="error-message" *ngIf="question.hasError">
+          <div *ngFor="let message of question.errorMessages">{{message}}</div>
+        </div>
+      </div>
+    </div>
+
+    <button (click)="saveQuestions()" [disabled]="!questions.length">
+      Save Questions
+    </button>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<app-navbar></app-navbar>
+
+<div class="batch-list">
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="!loading">
+    <h2>Batch List</h2>
+    <div *ngIf="batches.length === 0">
+      <p>No batches available. Please <a routerLink="/upload-candidates">upload candidate list</a>.</p>
+    </div>
+    <div *ngIf="batches.length > 0" class="card-container">
+      <div class="card" *ngFor="let batch of batches" (click)="selectBatch(batch)">
+        <div class="card-content">
+          <h3>{{ batch.name }}</h3>
+          <p><strong>Batch ID:</strong> {{ batch.id }}</p>
+          <p><strong>Candidate Count:</strong> {{ batch.candidateCount }}</p>
+          <p><strong>Last Updated:</strong> {{ batch.lastUpdated | date:'short' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

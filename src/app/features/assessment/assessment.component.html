@@ -1,0 +1,22 @@
+<div class="assessment">
+  <h2>Assessment for {{ candidate.name }}</h2>
+  <div class="instructions">
+    <p>Number of Questions: {{ questions.length }}</p>
+    <p>Time: 10 minutes</p>
+    <p>Rules: Answer all questions. You cannot go back once the assessment starts.</p>
+  </div>
+  <div class="timer">Time Left: {{ formattedTimer }}</div>
+  <div class="question">
+    <p>{{ questions[currentQuestionIndex].question }}</p>
+    <mat-radio-group [(ngModel)]="questions[currentQuestionIndex].answer">
+      <mat-radio-button *ngFor="let option of questions[currentQuestionIndex].options" [value]="option">
+        {{ option }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div class="navigation-buttons">
+    <button mat-raised-button color="primary" (click)="previousQuestion()" [disabled]="currentQuestionIndex === 0">Previous</button>
+    <button mat-raised-button color="accent" (click)="nextQuestion()" [disabled]="currentQuestionIndex === questions.length - 1">Next</button>
+    <button mat-raised-button color="warn" (click)="submitAssessment()">Submit</button>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<app-navbar></app-navbar>
+<div class="upload-card">
+  <h2>Upload Candidates</h2>
+
+  <!-- Assessment Selection -->
+  <div *ngIf="!assessmentConfirmed" class="dropdown-container">
+    <h2>Select Assessment</h2>
+    <select [(ngModel)]="selectedAssessment" (change)="onAssessmentSelect()">
+      <option value="" disabled>Select an assessment</option>
+      <option *ngFor="let assessment of assessments" [value]="assessment.id">
+        {{assessment.name}}
+      </option>
+    </select>
+    <button (click)="confirmAssessment()">Confirm</button>
+  </div>
+
+  <!-- Batch Details Input -->
+  <div *ngIf="assessmentConfirmed && !batchConfirmed" class="dropdown-container">
+    <h2>Enter Batch Details</h2>
+    <div class="form-group">
+      <label for="batchName">Batch Name</label>
+      <input type="text" id="batchName" [(ngModel)]="batchName" class="form-control" required>
+      <div *ngIf="!batchName && batchConfirmed" class="error">Batch Name is required</div>
+    </div>
+    <div class="form-group">
+      <label for="batchId">Batch ID</label>
+      <input type="text" id="batchId" [(ngModel)]="batchId" class="form-control" required>
+      <div *ngIf="!batchId && batchConfirmed" class="error">Batch ID is required</div>
+    </div>
+    <button (click)="confirmBatch()">Confirm</button>
+  </div>
+
+  <!-- Upload Component -->
+  <div *ngIf="assessmentConfirmed && batchConfirmed">
+    <div *ngIf="candidates.length > 0" class="warning">
+      <p>Valid Entries: {{validCount}}</p>
+      <p>Invalid Entries: {{invalidCount}}</p>
+    </div>
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="file" class="custom-file-upload">
+          <i class="fa fa-cloud-upload"></i> Choose File
+        </label>
+        <input type="file" id="file" (change)="onFileChange($event)" formControlName="file" accept=".xlsx,.xls,.csv">
+      </div>
+      <button type="submit" [disabled]="uploadForm.invalid">Upload</button>
+    </form>
+    <div class="sample-file">
+      <a href="/assets/sample/KBL_CSR_FY_24-25_Data.csv" download>Download Sample File</a>
+    </div>
+    <div *ngIf="candidates.length > 0" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let candidate of candidates" [ngClass]="{'invalid-row': candidate['status'] === 'Invalid'}">
+            <td>{{candidate.name}}</td>
+            <td>{{candidate.email}}</td>
+            <td>{{candidate.phone}}</td>
+            <td>{{candidate['status']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,10 @@
+<mat-toolbar class="navbar">
+  <span class="title">Assessment Platform</span>
+  <span class="spacer"></span>
+  <ng-container *ngIf="isLoggedIn">
+    <span class="username">Hi, {{ tpName }}</span>
+    <a mat-button routerLink="/upload-candidates" class="upload-candidates">Upload Candidates</a>
+    <a mat-button routerLink="/batch-list" class="batch-list">Batch List</a>
+    <button mat-button (click)="logout()" class="logout">Logout</button>
+  </ng-container>
+</mat-toolbar>
