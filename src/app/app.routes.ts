@@ -13,7 +13,7 @@ import { AdminQuestionListComponent } from './features/admin-question-list/admin
 import { AdminTpListComponent } from './features/admin-tp-list/admin-tp-list.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', loadChildren: () => import('./features/login/login.module').then(m => m.LoginModule) },
   { path: 'home', loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule) },
   { path: 'upload-candidates', component: UploadCandidatesComponent },
