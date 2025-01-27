@@ -7,13 +7,15 @@ import {
 import express from 'express';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-
+import { AngularAppEngine, createRequestHandler } from '@angular/ssr';
+import { getContext } from '@netlify/angular-runtime/context';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+const angularAppEngine = new AngularAppEngine();
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -26,6 +28,9 @@ const angularApp = new AngularNodeAppEngine();
  * });
  * ```
  */
+app.get('/api/example', (req, res) => {
+  res.json({ message: 'API is working!' });
+});
 
 /**
  * Serve static files from /browser
@@ -61,7 +66,14 @@ if (isMainModule(import.meta.url)) {
   });
 }
 
+export async function netlifyAppEngineHandler(request: Request): Promise<Response> {
+  const context = getContext();
+
+  const result = await angularAppEngine.handle(request, context);
+  return result || new Response('Not found', { status: 404 });
+}
+
 /**
  * The request handler used by the Angular CLI (dev-server and during build).
  */
-export const reqHandler = createNodeRequestHandler(app);
+export const reqHandler = createRequestHandler(netlifyAppEngineHandler);

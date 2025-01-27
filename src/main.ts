@@ -8,7 +8,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { provideHttpClient } from '@angular/common/http';
-import { provideServerRendering } from '@angular/platform-server';
 
 if (environment.production) {
   enableProdMode();
@@ -23,8 +22,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(ToastrModule.forRoot()),
     provideRouter(routes),
-    provideHttpClient(),
-    provideServerRendering()
+    provideHttpClient()
   ]
 }).catch(err => console.error(err));
 

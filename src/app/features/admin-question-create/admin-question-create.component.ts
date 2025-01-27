@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminNavbarComponent } from '../../shared/components/admin-navbar/admin-navbar.component';
@@ -53,12 +54,16 @@ export class AdminQuestionCreateComponent implements OnInit {
   isUploading = false;
   loading = false;
   errorMessage = '';
+  isBrowser: boolean;
 
   constructor(
     private questionService: QuestionService,
     private assessmentService: AssessmentService,
-    private authService: AuthService // Inject AuthService
-  ) {}
+    private authService: AuthService, // Inject AuthService
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit() {
     this.loadAssessments();
@@ -83,6 +88,8 @@ export class AdminQuestionCreateComponent implements OnInit {
   }
 
   async onFileUpload(event: any) {
+    if (!this.isBrowser) return; // Ensure this code only runs on the client side
+
     const file = event.target.files[0];
     const reader = new FileReader();
 
