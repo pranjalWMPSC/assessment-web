@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment'; // Import environment
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8888/.netlify/functions/server'; // Updated base URL
+  private baseUrl = environment.baseUrl; // Use baseUrl from environment
   private tpEmailKey = 'tpEmail';
   private tpNameKey = 'tpName';
   private tpEmailExpiryKey = 'tpEmailExpiry';
