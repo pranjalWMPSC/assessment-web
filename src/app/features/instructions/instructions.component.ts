@@ -22,6 +22,11 @@ export class InstructionsComponent implements OnInit {
   }
 
   startAssessment(): void {
-    this.router.navigate(['/assessment', this.candidate.id]);
+    const candidateId = localStorage.getItem('selectedCandidateId');
+    if (candidateId) {
+      this.router.navigate(['/assessment']);
+    } else {
+      console.error('Candidate ID not found in local storage');
+    }
   }
 }

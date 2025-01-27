@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminLoginService } from '../../services/admin-login.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AdminNavbarComponent } from "../../shared/components/admin-navbar/admin-navbar.component";
-import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 interface TP {
   _id: string;
@@ -16,14 +17,19 @@ interface TP {
 @Component({
   selector: 'app-admin-tp-list',
   standalone: true,
-  imports: [CommonModule, AdminNavbarComponent],
+  imports: [CommonModule, FormsModule, AdminNavbarComponent, RouterModule],
   templateUrl: './admin-tp-list.component.html',
-  styleUrls: ['./admin-tp-list.component.css']
+  styleUrls: ['./admin-tp-list.component.css'],
+  providers: [AdminLoginService]
 })
 export class AdminTpListComponent implements OnInit {
   tps: TP[] = [];
   isLoading = true;
   error: string | null = null;
+  selectedTP: TP | null = null;
+  showModal = false;
+  showAddModal = false;
+  newTP: Partial<TP> & { password?: string } = {};
 
   constructor(private adminLoginService: AdminLoginService) {}
 
@@ -37,8 +43,8 @@ export class AdminTpListComponent implements OnInit {
 
     this.adminLoginService.listTPs().subscribe({
       next: (response) => {
-        if (response && response.tps) {
-          this.tps = response.tps;
+        if (response && response.data) {
+          this.tps = response.data;
         }
         this.isLoading = false;
       },
@@ -51,20 +57,63 @@ export class AdminTpListComponent implements OnInit {
   }
 
   toggleTPStatus(tp: TP) {
-    const newStatus = tp.status === 'active' ? 'inactive' : 'active';
-    this.adminLoginService.updateTPStatus(tp._id, newStatus).subscribe(
-      (response) => {
-        tp.status = newStatus;
-      },
-      (error) => {
-        console.error('Error updating TP status', error);
-      }
-    );
+    this.selectedTP = tp;
+    this.showModal = true;
+  }
+
+  confirmToggleStatus() {
+    if (this.selectedTP) {
+      const newStatus = this.selectedTP.status === 'active' ? 'inactive' : 'active';
+      this.adminLoginService.updateTPStatus(this.selectedTP.email, newStatus).subscribe(
+        (response) => {
+          this.selectedTP!.status = newStatus;
+          this.showModal = false;
+          this.selectedTP = null;
+        },
+        (error) => {
+          console.error('Error updating TP status', error);
+          this.showModal = false;
+          this.selectedTP = null;
+        }
+      );
+    }
+  }
+
+  cancelToggleStatus() {
+    this.showModal = false;
+    this.selectedTP = null;
   }
 
   addNewTP() {
-    // You can navigate to a new component for TP creation
-    // or implement a modal/dialog here
-    console.log('Navigate to TP creation page');
+    this.showAddModal = true;
+  }
+
+  confirmAddTP() {
+    if (this.newTP.name && this.newTP.email && this.newTP.spocName && this.newTP.mobileNumber && this.newTP.password) {
+      const newTP: TP = {
+        _id: '',
+        status: 'active',
+        name: this.newTP.name,
+        email: this.newTP.email,
+        spocName: this.newTP.spocName,
+        mobileNumber: this.newTP.mobileNumber,
+        password: this.newTP.password
+      } as TP;
+      this.adminLoginService.createTP(newTP).subscribe(
+        (response) => {
+          this.loadTPs();
+          this.showAddModal = false;
+          this.newTP = {};
+        },
+        (error) => {
+          console.error('Error adding new TP', error);
+        }
+      );
+    }
+  }
+
+  cancelAddTP() {
+    this.showAddModal = false;
+    this.newTP = {};
   }
 }

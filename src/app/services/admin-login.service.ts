@@ -73,10 +73,11 @@ export class AdminLoginService {
   }
 
   createTP(tpData: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/tp/create`, tpData, { headers: this.getAuthHeaders() });
+    return this.http.post<any>(`${environment.baseUrl}/tp/register`, tpData, { headers: this.getAuthHeaders() });
   }
 
-  updateTPStatus(tpId: string, status: string): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/tp/${tpId}/status`, { status }, { headers: this.getAuthHeaders() });
+  updateTPStatus(email: string, status: string): Observable<any> {
+    const url = `${environment.baseUrl}/tp/${status === 'active' ? 'activate' : 'deactivate'}`;
+    return this.http.post<any>(url, { email }, { headers: this.getAuthHeaders() });
   }
 }

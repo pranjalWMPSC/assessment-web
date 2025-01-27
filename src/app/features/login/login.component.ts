@@ -66,23 +66,29 @@ export class LoginComponent implements OnInit {
             this.toastr.success('Login successful', 'Success');
             this.router.navigate(['/batch-list']); // Navigate to BatchListComponent
           } else {
-            this.toastr.error('Login failed: ' + response.message, 'Error');
-            this.errorMessage = response.message;
+            console.log("1:", response);
+            const errorMessage = response.message || 'Unknown error';
+            this.toastr.error('Login failed: ' + errorMessage, 'Error');
+            this.errorMessage = errorMessage;
           }
         },
         error: (error: HttpErrorResponse) => {
           console.log('Error received', error);
+          const errorMessage = error?.error?.message || error.message || 'Unknown error';
           if (error.status === 401) {
-            if (error.error.message === 'Invalid credentials: TP not found') {
+            console.log("2:", error);
+            if (errorMessage === 'Invalid credentials: TP not found') {
+              console.log("3:", error);
               this.toastr.error('Login failed: TP not found', 'Error');
               this.errorMessage = 'Invalid credentials: TP not found';
             } else {
+              console.log("4:", error);
               this.toastr.error('Login failed: Invalid credentials', 'Error');
               this.errorMessage = 'Invalid credentials';
             }
           } else {
-            this.toastr.error('Login failed: ' + error.message, 'Error');
-            this.errorMessage = error.message;
+            this.toastr.error('Login failed: ' + errorMessage, 'Error');
+            this.errorMessage = errorMessage;
           }
         }
       });

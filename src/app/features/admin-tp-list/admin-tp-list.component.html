@@ -38,3 +38,42 @@
     </div>
   </div>
 </div>
+
+<!-- Modal for toggling status -->
+<div class="modal" [class.show]="showModal">
+  <div class="modal-content">
+    <h2>Confirm Action</h2>
+    <p>Are you sure you want to {{ selectedTP?.status === 'active' ? 'deactivate' : 'activate' }} this training partner?</p>
+    <button (click)="confirmToggleStatus()">Yes</button>
+    <button (click)="cancelToggleStatus()">No</button>
+  </div>
+</div>
+
+<!-- Modal for adding new training partner -->
+<div class="modal" [class.show]="showAddModal">
+  <div class="modal-content">
+    <h2>Add New Training Partner</h2>
+    <label>
+      Name:
+      <input type="text" [(ngModel)]="newTP.name">
+    </label>
+    <label>
+      Email:
+      <input type="email" [(ngModel)]="newTP.email">
+    </label>
+    <label>
+      Password:
+      <input type="password" [(ngModel)]="newTP.password">
+    </label>
+    <label>
+      SPOC Name:
+      <input type="text" [(ngModel)]="newTP.spocName">
+    </label>
+    <label>
+      Mobile Number:
+      <input type="text" [(ngModel)]="newTP.mobileNumber">
+    </label>
+    <button (click)="confirmAddTP()">Add</button>
+    <button (click)="cancelAddTP()">Cancel</button>
+  </div>
+</div>

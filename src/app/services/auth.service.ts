@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'https://wmpsc-main-api.netlify.app/.netlify/functions/server'; // Updated base URL
+  private baseUrl = 'http://localhost:8888/.netlify/functions/server'; // Updated base URL
   private tpEmailKey = 'tpEmail';
   private tpNameKey = 'tpName';
   private tpEmailExpiryKey = 'tpEmailExpiry';

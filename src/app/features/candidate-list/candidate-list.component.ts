@@ -73,8 +73,8 @@ export class CandidateListComponent implements OnInit {
     if (candidate.assessmentCompleted) {
       alert('Assessment already completed');
     } else {
-      localStorage.setItem('selectedCandidate', JSON.stringify(candidate));
-      this.router.navigate(['/instructions', candidate.id]);
+      localStorage.setItem('selectedCandidateId', candidate.id);
+      this.router.navigate(['/instructions']);
     }
   }
 

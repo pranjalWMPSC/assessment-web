@@ -29,11 +29,17 @@ export class AssessmentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const candidateId = this.route.snapshot.paramMap.get('id') as string;
-    this.candidate = JSON.parse(localStorage.getItem('selectedCandidate') || '{}');
-    this.questions = this.assessmentService.getQuestions();
-    this.startTimer();
-    this.preventBackButton();
+    const candidateId = localStorage.getItem('selectedCandidateId');
+    if (candidateId) {
+      this.candidate = JSON.parse(localStorage.getItem('selectedCandidate') || '{}');
+      localStorage.removeItem('selectedCandidateId');
+      this.questions = this.assessmentService.getQuestions();
+      this.startTimer();
+      this.preventBackButton();
+    } else {
+      console.error('Candidate ID not found in local storage');
+      this.router.navigate(['/candidate-list']);
+    }
   }
 
   ngOnDestroy(): void {
