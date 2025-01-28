@@ -13,21 +13,21 @@ import { AdminQuestionListComponent } from './features/admin-question-list/admin
 import { AdminTpListComponent } from './features/admin-tp-list/admin-tp-list.component';
 
 export const routes: Routes = [
-  { path: '**', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', loadChildren: () => import('./features/login/login.module').then(m => m.LoginModule), pathMatch: 'full' },
-  { path: 'home', loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule), pathMatch: 'full' },
-  { path: 'upload-candidates', component: UploadCandidatesComponent, pathMatch: 'full' },
-  { path: 'candidate-list', component: CandidateListComponent, pathMatch: 'full' },
-  { path: 'instructions', component: InstructionsComponent, data: { renderMode: 'ssr' }, pathMatch: 'full' },
-  { path: 'assessment', component: AssessmentComponent, pathMatch: 'full' },
-  { path: 'batches', component: BatchListComponent, data: { renderMode: 'ssr' }, pathMatch: 'full' },
-  { path: 'candidates', component: CandidateListComponent, data: { renderMode: 'ssr' }, pathMatch: 'full' },
-  { path: 'batch-list', component: BatchListComponent, pathMatch: 'full' },
-  { path: 'admin-login', component: AdminLoginComponent, pathMatch: 'full' },
-  { path: 'admin-assessment-create', component: AdminAssessmentCreateComponent, pathMatch: 'full' },
-  { path: 'admin-dashboard', component: AdminDashboardComponent, pathMatch: 'full' },
-  { path: 'admin-assessment-list', component: AdminAssessmentListComponent, pathMatch: 'full' },
-  { path: 'admin-question-create', component: AdminQuestionCreateComponent, pathMatch: 'full' },
-  { path: 'admin-question-list', component: AdminQuestionListComponent, pathMatch: 'full' },
-  { path: 'admin-tp-list', component: AdminTpListComponent, pathMatch: 'full' }
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', loadChildren: () => import('./features/login/login.module').then(m => m.LoginModule) },
+  { path: 'home', loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule) },
+  { path: 'upload-candidates', component: UploadCandidatesComponent },
+  { path: 'candidate-list', component: CandidateListComponent },
+  { path: 'instructions', component: InstructionsComponent, data: { renderMode: 'ssr' } },
+  { path: 'assessment', component: AssessmentComponent },
+  { path: 'batches', component: BatchListComponent, data: { renderMode: 'ssr' } },
+  { path: 'candidates', component: CandidateListComponent, data: { renderMode: 'ssr' } },
+  { path: 'batch-list', component: BatchListComponent },
+  { path: 'admin-login', component: AdminLoginComponent },
+  { path: 'admin-assessment-create', component: AdminAssessmentCreateComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent },
+  { path: 'admin-assessment-list', component: AdminAssessmentListComponent },
+  { path: 'admin-question-create', component: AdminQuestionCreateComponent },
+  { path: 'admin-question-list', component: AdminQuestionListComponent },
+  { path: 'admin-tp-list', component: AdminTpListComponent }
 ];
